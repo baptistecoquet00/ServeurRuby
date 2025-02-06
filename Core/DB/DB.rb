@@ -12,15 +12,15 @@ module Core
                 @dbi = nil
             end
 
-            def query(statement)
+            def query(statement, *params)
                 connect
                 req = @dbi.prepare(statement)
-                req.execute
+                req.execute(*params)
                 results = req.fetch_all
                 results
-            rescue DBI::DatabaseError => e
+              rescue DBI::DatabaseError => e
                 puts "Erreur d'éxécution de la requête : #{e.message}"
-            ensure
+              ensure
                 req.finish if req
             end
 
